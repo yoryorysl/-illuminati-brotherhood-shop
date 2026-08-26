@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Illuminati Organization Shop</title>
+<meta name="description" content="A simple, transparent online shop.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">Illuminati Organization Shop</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#products">Shop</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">WELCOME</p>
+    <h1>Explore our collection</h1>
+    <p>Discover products presented with clear pricing and straightforward information.</p>
+    <a class="button" href="#products">Shop now</a>
+  </div>
+</section>
+
+<section id="products" class="section">
+  <div class="container">
+    <h2>Featured products</h2>
+    <div class="products">
+      <article class="card">
+        <div class="product-image">Product 01</div>
+        <h3>Classic Collection Item</h3>
+        <p>Simple description of the product and what is included.</p>
+        <strong>$25.00</strong>
+        <button onclick="addToCart('Classic Collection Item',25)">Add to cart</button>
+      </article>
+      <article class="card">
+        <div class="product-image">Product 02</div>
+        <h3>Premium Collection Item</h3>
+        <p>A premium item with transparent product details.</p>
+        <strong>$50.00</strong>
+        <button onclick="addToCart('Premium Collection Item',50)">Add to cart</button>
+      </article>
+      <article class="card">
+        <div class="product-image">Product 03</div>
+        <h3>Special Collection Item</h3>
+        <p>A special item for customers looking for something different.</p>
+        <strong>$75.00</strong>
+        <button onclick="addToCart('Special Collection Item',75)">Add to cart</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section alt">
+  <div class="container narrow">
+    <h2>About</h2>
+    <p>This store is designed to provide clear product information, transparent pricing and a straightforward customer experience.</p>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="container narrow">
+    <h2>Contact</h2>
+    <p>Replace this section with your real business email, phone number and customer-support information before launch.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Illuminati Organization Shop. All rights reserved.</p>
+    <p><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
