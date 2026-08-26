@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Illuminati Brotherhood Shop</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #080808;
+      color: white;
+    }
+
+    header {
+      background: #111;
+      padding: 15px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .cart {
+      background: #d4af37;
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 90px 20px;
+      background: linear-gradient(135deg, #181818, #050505);
+    }
+
+    .hero h1 {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      color: #bbb;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    .button {
+      display: inline-block;
+      background: #d4af37;
+      color: #000;
+      padding: 13px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 60px 6%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 35px;
+      font-size: 30px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .product {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .product-image {
+      height: 200px;
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      color: #777;
+    }
+
+    .price {
+      color: #d4af37;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 12px 0;
+    }
+
+    .buy {
+      border: none;
+      cursor: pointer;
+    }
+
+    .about {
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+      color: #bbb;
+      line-height: 1.7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid #292929;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">ILLUMINATI BROTHERHOOD SHOP</div>
+  <div class="cart">
+    Cart: <span id="cartCount">0</span>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Illuminati Brotherhood Shop</h1>
+
+  <p>
+    Explore our collection of themed merchandise and symbolic items.
+  </p>
+
+  <a href="#shop" class="button">SHOP NOW</a>
+</section>
+
+<section id="shop">
+
+  <h2>Our Products</h2>
+
+  <div class="products">
+
+    <div class="product">
+      <div class="product-image">
+        Product Image
+      </div>
+
+      <h3>Illuminati Suit</h3>
+
+      <div class="price">$30</div>
+
+      <button class="button buy" onclick="addToCart()">
+        Add to Cart
+      </button>
+    </div>
+
+
+    <div class="product">
+      <div class="product-image">
+        Product Image
+      </div>
+
+      <h3>Illuminati Ring</h3>
+
+      <div class="price">$50</div>
+
+      <button class="button buy" onclick="addToCart()">
+        Add to Cart
+      </button>
+    </div>
+
+
+    <div class="product">
+      <div class="product-image">
+        Product Image
+      </div>
+
+      <h3>Illuminati Necklace</h3>
+
+      <div class="price">$40</div>
+
+      <button class="button buy" onclick="addToCart()">
+        Add to Cart
+      </button>
+    </div>
+
+
+    <div class="product">
+      <div class="product-image">
+        Product Image
+      </div>
+
+      <h3>Illuminati Bible</h3>
+
+      <div class="price">$150</div>
+
+      <button class="button buy" onclick="addToCart()">
+        Add to Cart
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section>
+
+  <h2>About Our Shop</h2>
+
+  <div class="about">
+
+    <p>
+      Welcome to Illuminati Brotherhood Shop. We provide
+      themed merchandise and symbolic items for customers
+      interested in our designs and products.
+    </p>
+
+  </div>
+
+</section>
+
+
+<footer>
+
+  © 2026 Illuminati Brotherhood Shop
+
+</footer>
+
+
+<script>
+
+  let cartCount = 0;
+
+  function addToCart() {
+
+    cartCount++;
+
+    document.getElementById("cartCount").textContent = cartCount;
+
+    alert("Item added to cart!");
+
+  }
+
+</script>
+
+</body>
+</html>
