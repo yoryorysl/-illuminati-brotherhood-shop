@@ -7,76 +7,132 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+  res.status(200).json({
+    status: "ok"
+  });
 });
 
-// Create BTCPay invoice
 app.post("/api/create-invoice", async (req, res) => {
   try {
-    const { amount } = req.body;
+    const amount = Number(req.body.amount);
 
-    if (!amount || Number(amount) <= 0) {
+    if (!Number.isFinite(amount) || amount <= 0) {
       return res.status(400).json({
-        error: "Invalid amount"
+        error: "Invalid payment amount."
       });
     }
 
-    const btcpayUrl = process.env.BTCPAY_URL;
-    const storeId = process.env.BTCPAY_STORE_ID;
-    const apiKey = process.env.BTCPAY_API_KEY;
+    const btcpayUrl =
+      process.env.BTCPAY_URL?.replace(/\/+$/, "");
+
+    const storeId =
+      process.env.BTCPAY_STORE_ID;
+
+    const apiKey =
+      process.env.BTCPAY_API_KEY;
 
     if (!btcpayUrl || !storeId || !apiKey) {
+      console.error(
+        "Missing BTCPay environment variables."
+      );
+
       return res.status(500).json({
-        error: "BTCPay environment variables are not configured."
+        error: "BTCPay configuration is incomplete."
       });
     }
 
-    const response = await fetch(
-      `${btcpayUrl}/api/v1/stores/${storeId}/invoices`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `token ${apiKey}`
-        },
-        body: JSON.stringify({
-          amount: String(amount),
-          currency: "USD"
-        })
-      }
+    const invoiceUrl =
+      `${btcpayUrl}/api/v1/stores/${encodeURIComponent(storeId)}/invoices`;
+
+    console.log(
+      "Creating BTCPay invoice for amount:",
+      amount
     );
 
-    const data = await response.json();
+    const response = await fetch(invoiceUrl, {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `token ${apiKey}`
+      },
+
+      body: JSON.stringify({
+        amount: amount.toFixed(2),
+        currency: "USD"
+      })
+    });
+
+    const responseText =
+      await response.text();
+
+    let data;
+
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      data = {
+        message: responseText
+      };
+    }
 
     if (!response.ok) {
-      console.error("BTCPay error:", data);
+      console.error(
+        "BTCPay returned HTTP",
+        response.status,
+        data
+      );
 
-      return res.status(response.status).json({
-        error: "Unable to create BTCPay invoice."
+      return res.status(502).json({
+        error:
+          "BTCPay rejected the invoice request.",
+        status: response.status
       });
     }
 
-    res.json({
+    if (!data.checkoutLink) {
+      console.error(
+        "BTCPay response did not contain checkoutLink:",
+        data
+      );
+
+      return res.status(502).json({
+        error:
+          "BTCPay did not provide a checkout link."
+      });
+    }
+
+    console.log(
+      "BTCPay invoice created successfully."
+    );
+
+    return res.json({
       invoiceId: data.id,
       checkoutLink: data.checkoutLink
     });
 
   } catch (error) {
-    console.error(error);
 
-    res.status(500).json({
+    console.error(
+      "Payment server error:",
+      error.message
+    );
+
+    return res.status(500).json({
       error: "Payment server error."
     });
   }
 });
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(
+    `Server running on port ${PORT}`
+  );
 });
