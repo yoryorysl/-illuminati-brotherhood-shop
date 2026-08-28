@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brotherhood Items Shop</title>
-
   <style>
     * {
       box-sizing: border-box;
@@ -15,16 +14,17 @@
     body {
       font-family: Arial, sans-serif;
       background: #0b0b0b;
-      color: #fff;
+      color: #ffffff;
+      line-height: 1.5;
     }
 
     header {
-      background: #111;
-      border-bottom: 1px solid #333;
-      padding: 18px 20px;
       position: sticky;
       top: 0;
       z-index: 100;
+      background: #111111;
+      border-bottom: 1px solid #333333;
+      padding: 15px 20px;
     }
 
     .nav {
@@ -48,42 +48,46 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: #222;
+      background: #222222;
+      border: 1px solid #666666;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 22px;
-      border: 1px solid #555;
     }
 
-    .cart-button {
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: bold;
+    button {
+      font-family: inherit;
       cursor: pointer;
     }
 
+    .cart-button {
+      border: 0;
+      background: #ffffff;
+      color: #000000;
+      padding: 11px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
     .hero {
-      max-width: 1100px;
-      margin: auto;
-      padding: 60px 20px 35px;
       text-align: center;
+      padding: 55px 20px 35px;
+      max-width: 900px;
+      margin: auto;
     }
 
     .profile-logo {
       width: 100px;
       height: 100px;
-      border-radius: 50%;
       margin: 0 auto 20px;
+      border-radius: 50%;
       background: #191919;
-      border: 2px solid #666;
+      border: 2px solid #666666;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 52px;
+      font-size: 50px;
     }
 
     .hero h1 {
@@ -92,10 +96,9 @@
     }
 
     .hero p {
-      color: #bbb;
-      max-width: 600px;
+      color: #aaaaaa;
+      max-width: 650px;
       margin: auto;
-      line-height: 1.6;
     }
 
     .products {
@@ -129,23 +132,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 80px;
+      font-size: 78px;
     }
 
     .product-info {
       padding: 18px;
     }
 
-    .product h3 {
-      margin-bottom: 8px;
+    .product-info h3 {
       font-size: 19px;
+      margin-bottom: 7px;
     }
 
     .description {
-      color: #aaa;
+      color: #999999;
       font-size: 14px;
-      line-height: 1.5;
-      min-height: 42px;
+      min-height: 43px;
     }
 
     .price {
@@ -156,71 +158,98 @@
 
     .add-button {
       width: 100%;
-      padding: 12px;
-      border: none;
+      border: 0;
       border-radius: 8px;
-      background: #fff;
-      color: #000;
+      background: #ffffff;
+      color: #000000;
+      padding: 13px;
       font-weight: bold;
-      cursor: pointer;
+      font-size: 15px;
     }
 
-    .add-button:hover,
-    .cart-button:hover {
-      opacity: .85;
+    .add-button:active,
+    .cart-button:active,
+    .checkout:active {
+      transform: scale(0.98);
     }
 
     .cart-panel {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.75);
       z-index: 200;
+      background: rgba(0, 0, 0, 0.78);
+      padding: 20px;
+      overflow-y: auto;
     }
 
     .cart-box {
+      width: min(500px, 100%);
+      margin: 6vh auto;
       background: #151515;
-      width: min(500px, 92%);
-      max-height: 85vh;
-      overflow-y: auto;
-      margin: 7vh auto;
-      padding: 25px;
+      border: 1px solid #444444;
       border-radius: 15px;
-      border: 1px solid #444;
+      padding: 25px;
     }
 
     .cart-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      justify-content: space-between;
+      margin-bottom: 15px;
     }
 
     .close {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 25px;
-      cursor: pointer;
+      border: 0;
+      background: transparent;
+      color: #ffffff;
+      font-size: 28px;
+      padding: 4px 8px;
     }
 
     .cart-item {
+      border-bottom: 1px solid #333333;
+      padding: 15px 0;
+    }
+
+    .cart-item-top {
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      padding: 14px 0;
-      border-bottom: 1px solid #333;
     }
 
-    .cart-item small {
-      color: #aaa;
+    .cart-item-name {
+      font-weight: bold;
     }
 
-    .remove {
-      background: none;
-      border: none;
+    .cart-item-price {
+      color: #bbbbbb;
+      font-size: 14px;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .quantity-button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #555555;
+      border-radius: 6px;
+      background: #222222;
+      color: #ffffff;
+      font-size: 18px;
+    }
+
+    .remove-button {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
       color: #ff7777;
-      cursor: pointer;
+      font-size: 13px;
     }
 
     .cart-total {
@@ -231,27 +260,26 @@
 
     .checkout {
       width: 100%;
-      padding: 14px;
-      border: none;
+      border: 0;
       border-radius: 8px;
-      background: #fff;
-      color: #000;
+      background: #ffffff;
+      color: #000000;
+      padding: 14px;
       font-size: 16px;
       font-weight: bold;
-      cursor: pointer;
     }
 
     .empty {
-      color: #aaa;
       text-align: center;
+      color: #999999;
       padding: 30px 0;
     }
 
     footer {
-      text-align: center;
-      padding: 30px 20px;
       border-top: 1px solid #292929;
-      color: #888;
+      text-align: center;
+      color: #777777;
+      padding: 30px 20px;
       font-size: 14px;
     }
 
@@ -261,9 +289,9 @@
       }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 520px) {
       .hero h1 {
-        font-size: 28px;
+        font-size: 29px;
       }
 
       .product-grid {
@@ -276,240 +304,609 @@
     }
   </style>
 </head>
-
 <body>
-
 <header>
   <div class="nav">
-    <div class="brand">
-      <div class="logo">◉</div>
-      Brotherhood Shop
-    </div>
-
-    <button class="cart-button" onclick="openCart()">
-      🛒 Cart (<span id="cartCount">0</span>)
-    </button>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="profile-logo">◉</div>
-
-  <h1>Brotherhood Items Shop</h1>
-
-  <p>
-    Welcome to our online shop. Browse the available items below
-    and add products to your shopping cart.
-  </p>
-</section>
-
-<section class="products">
-  <h2>Featured Items</h2>
-
-  <div class="product-grid">
-
-    <div class="product">
-      <div class="product-image">🤵</div>
-      <div class="product-info">
-        <h3>Brotherhood Suit</h3>
-        <p class="description">
-          Formal black suit design.
-        </p>
-        <div class="price">$80</div>
-        <button class="add-button"
-          onclick="addToCart('Brotherhood Suit', 80)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-
-    <div class="product">
-      <div class="product-image">💍</div>
-      <div class="product-info">
-        <h3>Brotherhood Ring</h3>
-        <p class="description">
-          Decorative ring design.
-        </p>
-        <div class="price">$70</div>
-        <button class="add-button"
-          onclick="addToCart('Brotherhood Ring', 70)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-
-    <div class="product">
-      <div class="product-image">📿</div>
-      <div class="product-info">
-        <h3>Brotherhood Necklace</h3>
-        <p class="description">
-          Decorative necklace design.
-        </p>
-        <div class="price">$90</div>
-        <button class="add-button"
-          onclick="addToCart('Brotherhood Necklace', 90)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-
-    <div class="product">
-      <div class="product-image">📖</div>
-      <div class="product-info">
-        <h3>Brotherhood Bible</h3>
-        <p class="description">
-          Printed book edition.
-        </p>
-        <div class="price">$150</div>
-        <button class="add-button"
-          onclick="addToCart('Brotherhood Bible', 150)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="cart-panel" id="cartPanel">
-
-  <div class="cart-box">
-
-    <div class="cart-header">
-      <h2>Your Cart</h2>
-
-      <button class="close" onclick="closeCart()">×</button>
-    </div>
-
-    <div id="cartItems"></div>
-
-    <div class="cart-total">
-      Total: $<span id="cartTotal">0</span>
-    </div>
-
-    <button class="checkout" onclick="checkout()">
-      Proceed to Checkout
-    </button>
-
-  </div>
+<div class="brand">
+  <div class="logo">◉</div>
+  <span>Brotherhood Shop</span>
 </div>
 
+<button type="button" class="cart-button" id="openCartButton">
+  🛒 Cart (<span id="cartCount">0</span>)
+</button>
+  </div>
+</header>
+<section class="hero">
+  <div class="profile-logo">◉</div>
+  <h1>Brotherhood Items Shop</h1>
+  <p>
+    Welcome to our online shop. Browse the available items
+    and add your selected products to the shopping cart.
+  </p>
+</section>
+<section class="products">
+  <h2>Featured Items</h2>
+  <div class="product-grid">
+<article class="product">
+
+  <div class="product-image">🤵</div>
+
+  <div class="product-info">
+
+    <h3>Brotherhood Suit</h3>
+
+    <p class="description">
+      Formal black suit design.
+    </p>
+
+    <div class="price">$80</div>
+
+    <button
+      type="button"
+      class="add-button"
+      data-name="Brotherhood Suit"
+      data-price="80">
+      Add to Cart
+    </button>
+
+  </div>
+
+</article>
+
+
+<article class="product">
+
+  <div class="product-image">💍</div>
+
+  <div class="product-info">
+
+    <h3>Brotherhood Ring</h3>
+
+    <p class="description">
+      Decorative ring design.
+    </p>
+
+    <div class="price">$70</div>
+
+    <button
+      type="button"
+      class="add-button"
+      data-name="Brotherhood Ring"
+      data-price="70">
+      Add to Cart
+    </button>
+
+  </div>
+
+</article>
+
+
+<article class="product">
+
+  <div class="product-image">📿</div>
+
+  <div class="product-info">
+
+    <h3>Brotherhood Necklace</h3>
+
+    <p class="description">
+      Decorative necklace design.
+    </p>
+
+    <div class="price">$90</div>
+
+    <button
+      type="button"
+      class="add-button"
+      data-name="Brotherhood Necklace"
+      data-price="90">
+      Add to Cart
+    </button>
+
+  </div>
+
+</article>
+
+
+<article class="product">
+
+  <div class="product-image">📖</div>
+
+  <div class="product-info">
+
+    <h3>Brotherhood Bible</h3>
+
+    <p class="description">
+      Printed book edition.
+    </p>
+
+    <div class="price">$150</div>
+
+    <button
+      type="button"
+      class="add-button"
+      data-name="Brotherhood Bible"
+      data-price="150">
+      Add to Cart
+    </button>
+
+  </div>
+
+</article>
+  </div>
+</section>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-box">
+<div class="cart-header">
+
+  <h2>Your Cart</h2>
+
+  <button
+    type="button"
+    class="close"
+    id="closeCartButton">
+    ×
+  </button>
+
+</div>
+
+<div id="cartItems"></div>
+
+<div class="cart-total">
+  Total: $<span id="cartTotal">0.00</span>
+</div>
+
+<button
+  type="button"
+  class="checkout"
+  id="checkoutButton">
+  Proceed to Checkout
+</button>
+  </div>
+</div>
 <footer>
   © 2026 Brotherhood Items Shop
 </footer>
-
 <script>
+  "use strict";
+
   let cart = [];
 
-  function addToCart(name, price) {
-    cart.push({
-      name: name,
-      price: price
-    });
+  const cartPanel = document.getElementById("cartPanel");
+  const cartItems = document.getElementById("cartItems");
+  const cartCount = document.getElementById("cartCount");
+  const cartTotal = document.getElementById("cartTotal");
 
+  const openCartButton =
+    document.getElementById("openCartButton");
+
+  const closeCartButton =
+    document.getElementById("closeCartButton");
+
+  const checkoutButton =
+    document.getElementById("checkoutButton");
+
+
+  function saveCart() {
+    try {
+      localStorage.setItem(
+        "brotherhoodCart",
+        JSON.stringify(cart)
+      );
+    } catch (error) {
+      console.log("Cart could not be saved.");
+    }
+  }
+
+
+  function loadCart() {
+    try {
+      const saved = localStorage.getItem(
+        "brotherhoodCart"
+      );
+
+      if (saved) {
+        cart = JSON.parse(saved);
+      }
+    } catch (error) {
+      cart = [];
+    }
+  }
+
+
+  function addToCart(name, price) {
+
+    const existing =
+      cart.find(item => item.name === name);
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({
+        name: name,
+        price: Number(price),
+        quantity: 1
+      });
+    }
+
+    saveCart();
     updateCart();
 
-    alert(name + " added to your cart.");
+    openCart();
+
   }
+
 
   function removeFromCart(index) {
+
     cart.splice(index, 1);
+
+    saveCart();
     updateCart();
+
   }
 
-  function updateCart() {
-    const cartItems = document.getElementById("cartItems");
-    const cartCount = document.getElementById("cartCount");
-    const cartTotal = document.getElementById("cartTotal");
 
-    cartCount.textContent = cart.length;
+  function changeQuantity(index, change) {
+
+    cart[index].quantity += change;
+
+    if (cart[index].quantity <= 0) {
+      cart.splice(index, 1);
+    }
+
+    saveCart();
+    updateCart();
+
+  }
+
+
+  function updateCart() {
+
+    cartCount.textContent =
+      cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
 
     if (cart.length === 0) {
+
       cartItems.innerHTML =
         '<div class="empty">Your cart is empty.</div>';
 
-      cartTotal.textContent = "0";
+      cartTotal.textContent = "0.00";
+
       return;
     }
 
+
     let total = 0;
 
-    cartItems.innerHTML = cart.map((item, index) => {
-      total += item.price;
 
-      return `
-        <div class="cart-item">
-          <div>
-            <strong>${item.name}</strong><br>
-            <small>$${item.price}</small>
+    cartItems.innerHTML = cart.map(
+      (item, index) => {
+
+        const itemTotal =
+          item.price * item.quantity;
+
+        total += itemTotal;
+
+        return `
+          <div class="cart-item">
+
+            <div class="cart-item-top">
+
+              <div>
+                <div class="cart-item-name">
+                  ${escapeHTML(item.name)}
+                </div>
+
+                <div class="cart-item-price">
+                  $${item.price.toFixed(2)} each
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="remove-button"
+                data-remove="${index}">
+                Remove
+              </button>
+
+            </div>
+
+            <div class="quantity-controls">
+
+              <button
+                type="button"
+                class="quantity-button"
+                data-minus="${index}">
+                −
+              </button>
+
+              <strong>
+                ${item.quantity}
+              </strong>
+
+              <button
+                type="button"
+                class="quantity-button"
+                data-plus="${index}">
+                +
+              </button>
+
+              <span style="margin-left:auto;">
+                $${itemTotal.toFixed(2)}
+              </span>
+
+            </div>
+
           </div>
+        `;
+      }
+    ).join("");
 
-          <button class="remove"
-            onclick="removeFromCart(${index})">
-            Remove
-          </button>
-        </div>
-      `;
-    }).join("");
 
-    cartTotal.textContent = total;
+    cartTotal.textContent =
+      total.toFixed(2);
+
   }
+
+
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
 
   function openCart() {
-    document.getElementById("cartPanel").style.display = "block";
+
+    cartPanel.style.display = "block";
+
     updateCart();
+
   }
+
 
   function closeCart() {
-    document.getElementById("cartPanel").style.display = "none";
+
+    cartPanel.style.display = "none";
+
   }
+
 
   async function checkout() {
-  if (cart.length === 0) {
-    alert("Your cart is empty.");
-    return;
+
+    if (cart.length === 0) {
+
+      alert("Your cart is empty.");
+
+      return;
+
+    }
+
+
+    const total =
+      cart.reduce(
+        (sum, item) =>
+          sum + item.price * item.quantity,
+        0
+      );
+
+
+    checkoutButton.disabled = true;
+    checkoutButton.textContent =
+      "Connecting to payment server...";
+
+
+    try {
+
+      const response =
+        await fetch("/api/create-invoice", {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            amount: Number(total.toFixed(2))
+          })
+
+        });
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error ||
+          "Payment setup failed."
+        );
+
+      }
+
+
+      if (!data.checkoutLink) {
+
+        throw new Error(
+          "No BTCPay checkout link was returned."
+        );
+
+      }
+
+
+      window.location.href =
+        data.checkoutLink;
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        "Unable to connect to the Bitcoin payment server. " +
+        "Please try again."
+      );
+
+    } finally {
+
+      checkoutButton.disabled = false;
+
+      checkoutButton.textContent =
+        "Proceed to Checkout";
+
+    }
+
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
 
-  try {
-    const response = await fetch("/api/create-invoice", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        amount: total
-      })
+  /*
+    Add-to-cart buttons
+  */
+
+  document
+    .querySelectorAll(".add-button")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        function () {
+
+          const name =
+            this.getAttribute("data-name");
+
+          const price =
+            Number(
+              this.getAttribute("data-price")
+            );
+
+          addToCart(name, price);
+
+        }
+      );
+
     });
 
-    const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.error || "Payment setup failed.");
+  /*
+    Cart controls
+  */
+
+  cartItems.addEventListener(
+    "click",
+    function (event) {
+
+      const removeButton =
+        event.target.closest(
+          "[data-remove]"
+        );
+
+      const minusButton =
+        event.target.closest(
+          "[data-minus]"
+        );
+
+      const plusButton =
+        event.target.closest(
+          "[data-plus]"
+        );
+
+
+      if (removeButton) {
+
+        const index =
+          Number(
+            removeButton.getAttribute(
+              "data-remove"
+            )
+          );
+
+        removeFromCart(index);
+
+        return;
+
+      }
+
+
+      if (minusButton) {
+
+        const index =
+          Number(
+            minusButton.getAttribute(
+              "data-minus"
+            )
+          );
+
+        changeQuantity(index, -1);
+
+        return;
+
+      }
+
+
+      if (plusButton) {
+
+        const index =
+          Number(
+            plusButton.getAttribute(
+              "data-plus"
+            )
+          );
+
+        changeQuantity(index, 1);
+
+      }
+
     }
+  );
 
-    if (data.checkoutLink) {
-      window.location.href = data.checkoutLink;
-    } else {
-      alert("BTCPay did not return a checkout link.");
+
+  openCartButton.addEventListener(
+    "click",
+    openCart
+  );
+
+
+  closeCartButton.addEventListener(
+    "click",
+    closeCart
+  );
+
+
+  checkoutButton.addEventListener(
+    "click",
+    checkout
+  );
+
+
+  cartPanel.addEventListener(
+    "click",
+    function (event) {
+
+      if (event.target === cartPanel) {
+        closeCart();
+      }
+
     }
+  );
 
-  } catch (error) {
-    console.error(error);
-    alert("Unable to connect to the Bitcoin payment server.");
-  }
-}
-    }
 
-    alert(
-      "Checkout is ready to be connected to your payment server. " +
-      "No payment has been processed."
-    );
-  }
-
+  loadCart();
   updateCart();
-</script>
 
+</script>
 </body>
 </html>
+:::
