@@ -464,10 +464,42 @@
     document.getElementById("cartPanel").style.display = "none";
   }
 
-  function checkout() {
-    if (cart.length === 0) {
-      alert("Your cart is empty.");
-      return;
+  async function checkout() {
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  try {
+    const response = await fetch("/api/create-invoice", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        amount: total
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Payment setup failed.");
+    }
+
+    if (data.checkoutLink) {
+      window.location.href = data.checkoutLink;
+    } else {
+      alert("BTCPay did not return a checkout link.");
+    }
+
+  } catch (error) {
+    console.error(error);
+    alert("Unable to connect to the Bitcoin payment server.");
+  }
+}
     }
 
     alert(
