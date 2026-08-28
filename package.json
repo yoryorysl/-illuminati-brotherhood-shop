@@ -1,0 +1,12 @@
+{
+  "name": "illuminati-organization-shop",
+  "version": "1.0.0",
+  "description": "Ecommerce website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
