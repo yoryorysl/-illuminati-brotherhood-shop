@@ -1,912 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brotherhood Items Shop</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merchandise Shop</title>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b0b0b;
-      color: #ffffff;
-      line-height: 1.5;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#0b0b0b;color:#fff}
+header{background:#151515;padding:15px 20px;position:sticky;top:0;z-index:10;border-bottom:1px solid #333}
+.nav{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:bold;font-size:18px}
+button{cursor:pointer}
+.cart-btn,.add-btn,.checkout-btn,.copy-btn{background:#fff;color:#000;border:0;border-radius:8px;padding:12px 16px;font-weight:bold}
+.hero{text-align:center;padding:50px 20px}
+.logo{width:95px;height:95px;border-radius:50%;background:#222;border:1px solid #555;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:45px}
+.hero h1{font-size:36px;margin-bottom:10px}
+.hero p{color:#aaa}
+.products{max-width:1100px;margin:auto;padding:20px}
+.products h2{text-align:center;margin-bottom:25px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.product{background:#151515;border:1px solid #292929;border-radius:12px;overflow:hidden}
+.product-img{height:200px;background:#222;display:flex;align-items:center;justify-content:center;font-size:70px}
+.info{padding:18px}
+.info h3{margin-bottom:8px}
+.desc{color:#999;font-size:14px;min-height:40px}
+.price{font-size:21px;font-weight:bold;margin:15px 0}
+.add-btn{width:100%}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: #111111;
-      border-bottom: 1px solid #333333;
-      padding: 15px 20px;
-    }
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;padding:20px;overflow:auto}
+.cart-box{max-width:520px;margin:40px auto;background:#151515;border:1px solid #444;border-radius:14px;padding:22px}
+.cart-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.close{background:none;border:0;color:#fff;font-size:30px}
+.item{border-bottom:1px solid #333;padding:15px 0}
+.item-row{display:flex;justify-content:space-between}
+.qty{display:flex;align-items:center;gap:10px;margin-top:10px}
+.qty button{background:#222;color:#fff;border:1px solid #555;border-radius:5px;width:32px;height:32px}
+.remove{background:none;border:0;color:#ff7777}
+.total{font-size:22px;font-weight:bold;margin:20px 0}
+.checkout-btn{width:100%}
 
-    .nav {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
+.payment{display:none;margin-top:20px;padding-top:20px;border-top:1px solid #333;text-align:center}
+.payment p{color:#aaa;margin:10px 0 15px}
+.qr{display:block;width:220px;height:220px;background:#fff;padding:8px;margin:15px auto}
+.address{background:#080808;border:1px solid #444;border-radius:8px;padding:13px;word-break:break-all;font-size:13px}
+.copy-btn{width:100%;margin-top:10px}
+.note{font-size:13px;color:#aaa;margin-top:15px}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: bold;
-      font-size: 18px;
-    }
+footer{text-align:center;color:#777;border-top:1px solid #292929;padding:30px}
 
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: #222222;
-      border: 1px solid #666666;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
-
-    button {
-      font-family: inherit;
-      cursor: pointer;
-    }
-
-    .cart-button {
-      border: 0;
-      background: #ffffff;
-      color: #000000;
-      padding: 11px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 55px 20px 35px;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    .profile-logo {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      background: #191919;
-      border: 2px solid #666666;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 50px;
-    }
-
-    .hero h1 {
-      font-size: 36px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      color: #aaaaaa;
-      max-width: 650px;
-      margin: auto;
-    }
-
-    .products {
-      max-width: 1100px;
-      margin: auto;
-      padding: 25px 20px 70px;
-    }
-
-    .products h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 28px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-
-    .product {
-      background: #151515;
-      border: 1px solid #292929;
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .product-image {
-      height: 210px;
-      background: #202020;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 78px;
-    }
-
-    .product-info {
-      padding: 18px;
-    }
-
-    .product-info h3 {
-      font-size: 19px;
-      margin-bottom: 7px;
-    }
-
-    .description {
-      color: #999999;
-      font-size: 14px;
-      min-height: 43px;
-    }
-
-    .price {
-      font-size: 21px;
-      font-weight: bold;
-      margin: 15px 0;
-    }
-
-    .add-button {
-      width: 100%;
-      border: 0;
-      border-radius: 8px;
-      background: #ffffff;
-      color: #000000;
-      padding: 13px;
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    .add-button:active,
-    .cart-button:active,
-    .checkout:active {
-      transform: scale(0.98);
-    }
-
-    .cart-panel {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: rgba(0, 0, 0, 0.78);
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .cart-box {
-      width: min(500px, 100%);
-      margin: 6vh auto;
-      background: #151515;
-      border: 1px solid #444444;
-      border-radius: 15px;
-      padding: 25px;
-    }
-
-    .cart-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-    }
-
-    .close {
-      border: 0;
-      background: transparent;
-      color: #ffffff;
-      font-size: 28px;
-      padding: 4px 8px;
-    }
-
-    .cart-item {
-      border-bottom: 1px solid #333333;
-      padding: 15px 0;
-    }
-
-    .cart-item-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .cart-item-name {
-      font-weight: bold;
-    }
-
-    .cart-item-price {
-      color: #bbbbbb;
-      font-size: 14px;
-    }
-
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .quantity-button {
-      width: 32px;
-      height: 32px;
-      border: 1px solid #555555;
-      border-radius: 6px;
-      background: #222222;
-      color: #ffffff;
-      font-size: 18px;
-    }
-
-    .remove-button {
-      margin-left: auto;
-      border: 0;
-      background: transparent;
-      color: #ff7777;
-      font-size: 13px;
-    }
-
-    .cart-total {
-      font-size: 22px;
-      font-weight: bold;
-      margin: 22px 0;
-    }
-
-    .checkout {
-      width: 100%;
-      border: 0;
-      border-radius: 8px;
-      background: #ffffff;
-      color: #000000;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .empty {
-      text-align: center;
-      color: #999999;
-      padding: 30px 0;
-    }
-
-    footer {
-      border-top: 1px solid #292929;
-      text-align: center;
-      color: #777777;
-      padding: 30px 20px;
-      font-size: 14px;
-    }
-
-    @media (max-width: 850px) {
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 520px) {
-      .hero h1 {
-        font-size: 29px;
-      }
-
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .product-image {
-        height: 230px;
-      }
-    }
-  </style>
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.hero h1{font-size:29px}}
+</style>
 </head>
+
 <body>
+
 <header>
-  <div class="nav">
-<div class="brand">
-  <div class="logo">◉</div>
-  <span>Brotherhood Shop</span>
-</div>
-
-<button type="button" class="cart-button" id="openCartButton">
-  🛒 Cart (<span id="cartCount">0</span>)
+<div class="nav">
+<div class="brand">Merchandise Shop</div>
+<button class="cart-btn" id="openCart">
+🛒 Cart (<span id="count">0</span>)
 </button>
-  </div>
+</div>
 </header>
+
 <section class="hero">
-  <div class="profile-logo">◉</div>
-  <h1>Brotherhood Items Shop</h1>
-  <p>
-    Welcome to our online shop. Browse the available items
-    and add your selected products to the shopping cart.
-  </p>
+<div class="logo">◉</div>
+<h1>Merchandise Shop</h1>
+<p>Browse our merchandise and add your items to the cart.</p>
 </section>
+
 <section class="products">
-  <h2>Featured Items</h2>
-  <div class="product-grid">
-<article class="product">
+<h2>Available Items</h2>
 
-  <div class="product-image">🤵</div>
+<div class="grid">
 
-  <div class="product-info">
+<div class="product">
+<div class="product-img">👕</div>
+<div class="info">
+<h3>Premium Shirt</h3>
+<p class="desc">Quality merchandise item.</p>
+<div class="price">$80.00</div>
+<button class="add-btn" data-name="Premium Shirt" data-price="80">
+Add to Cart
+</button>
+</div>
+</div>
 
-    <h3>Brotherhood Suit</h3>
+<div class="product">
+<div class="product-img">💍</div>
+<div class="info">
+<h3>Decorative Ring</h3>
+<p class="desc">Stylish merchandise item.</p>
+<div class="price">$70.00</div>
+<button class="add-btn" data-name="Decorative Ring" data-price="70">
+Add to Cart
+</button>
+</div>
+</div>
 
-    <p class="description">
-      Formal black suit design.
-    </p>
+<div class="product">
+<div class="product-img">📿</div>
+<div class="info">
+<h3>Necklace</h3>
+<p class="desc">Decorative merchandise item.</p>
+<div class="price">$90.00</div>
+<button class="add-btn" data-name="Necklace" data-price="90">
+Add to Cart
+</button>
+</div>
+</div>
 
-    <div class="price">$80</div>
+<div class="product">
+<div class="product-img">📖</div>
+<div class="info">
+<h3>Book</h3>
+<p class="desc">Printed merchandise item.</p>
+<div class="price">$150.00</div>
+<button class="add-btn" data-name="Book" data-price="150">
+Add to Cart
+</button>
+</div>
+</div>
 
-    <button
-      type="button"
-      class="add-button"
-      data-name="Brotherhood Suit"
-      data-price="80">
-      Add to Cart
-    </button>
-
-  </div>
-
-</article>
-
-
-<article class="product">
-
-  <div class="product-image">💍</div>
-
-  <div class="product-info">
-
-    <h3>Brotherhood Ring</h3>
-
-    <p class="description">
-      Decorative ring design.
-    </p>
-
-    <div class="price">$70</div>
-
-    <button
-      type="button"
-      class="add-button"
-      data-name="Brotherhood Ring"
-      data-price="70">
-      Add to Cart
-    </button>
-
-  </div>
-
-</article>
-
-
-<article class="product">
-
-  <div class="product-image">📿</div>
-
-  <div class="product-info">
-
-    <h3>Brotherhood Necklace</h3>
-
-    <p class="description">
-      Decorative necklace design.
-    </p>
-
-    <div class="price">$90</div>
-
-    <button
-      type="button"
-      class="add-button"
-      data-name="Brotherhood Necklace"
-      data-price="90">
-      Add to Cart
-    </button>
-
-  </div>
-
-</article>
-
-
-<article class="product">
-
-  <div class="product-image">📖</div>
-
-  <div class="product-info">
-
-    <h3>Brotherhood Bible</h3>
-
-    <p class="description">
-      Printed book edition.
-    </p>
-
-    <div class="price">$150</div>
-
-    <button
-      type="button"
-      class="add-button"
-      data-name="Brotherhood Bible"
-      data-price="150">
-      Add to Cart
-    </button>
-
-  </div>
-
-</article>
-  </div>
+</div>
 </section>
-<div class="cart-panel" id="cartPanel">
-  <div class="cart-box">
-<div class="cart-header">
 
-  <h2>Your Cart</h2>
+<div class="overlay" id="cartPanel">
 
-  <button
-    type="button"
-    class="close"
-    id="closeCartButton">
-    ×
-  </button>
+<div class="cart-box">
+
+<div class="cart-head">
+<h2>Your Cart</h2>
+<button class="close" id="closeCart">×</button>
+</div>
+
+<div id="items"></div>
+
+<div class="total">
+Total: $<span id="total">0.00</span>
+</div>
+
+<button class="checkout-btn" id="checkout">
+Continue to Bitcoin Payment
+</button>
+
+<div class="payment" id="payment">
+
+<h3>Bitcoin Payment</h3>
+
+<p>Send the payment to the Bitcoin receiving address below.</p>
+
+<img
+id="qr"
+class="qr"
+alt="Bitcoin QR code"
+>
+
+<div class="address" id="btcAddress"></div>
+
+<button class="copy-btn" id="copy">
+Copy Bitcoin Address
+</button>
+
+<p class="note">
+Verify the Bitcoin address and amount carefully before sending.
+Bitcoin transactions normally cannot be reversed.
+</p>
 
 </div>
 
-<div id="cartItems"></div>
-
-<div class="cart-total">
-  Total: $<span id="cartTotal">0.00</span>
 </div>
+</div>
+
+<footer>
+© 2026 Merchandise Shop
+</footer>
+
+<script>
+
+const BTC_ADDRESS =
+"YOUR_BITCOIN_RECEIVING_ADDRESS";
+
+let cart = [];
+
+const cartPanel =
+document.getElementById("cartPanel");
+
+const items =
+document.getElementById("items");
+
+const count =
+document.getElementById("count");
+
+const total =
+document.getElementById("total");
+
+const payment =
+document.getElementById("payment");
+
+const btcAddress =
+document.getElementById("btcAddress");
+
+const qr =
+document.getElementById("qr");
+
+function save(){
+localStorage.setItem(
+"merchandiseCart",
+JSON.stringify(cart)
+);
+}
+
+function load(){
+
+try{
+
+const saved =
+localStorage.getItem("merchandiseCart");
+
+if(saved){
+cart = JSON.parse(saved);
+}
+
+}catch(e){
+cart=[];
+}
+
+}
+
+function add(name,price){
+
+const existing =
+cart.find(item => item.name === name);
+
+if(existing){
+
+existing.quantity++;
+
+}else{
+
+cart.push({
+name:name,
+price:Number(price),
+quantity:1
+});
+
+}
+
+save();
+render();
+
+cartPanel.style.display="block";
+
+}
+
+function remove(index){
+
+cart.splice(index,1);
+
+save();
+render();
+
+}
+
+function quantity(index,change){
+
+cart[index].quantity += change;
+
+if(cart[index].quantity <= 0){
+cart.splice(index,1);
+}
+
+save();
+render();
+
+}
+
+function render(){
+
+let itemCount = 0;
+let cartTotal = 0;
+
+cart.forEach(item => {
+itemCount += item.quantity;
+cartTotal += item.price * item.quantity;
+});
+
+count.textContent = itemCount;
+total.textContent = cartTotal.toFixed(2);
+
+if(cart.length === 0){
+
+items.innerHTML =
+'<p style="text-align:center;color:#999;padding:25px">Your cart is empty.</p>';
+
+payment.style.display="none";
+
+return;
+
+}
+
+items.innerHTML = cart.map((item,index)=>{
+
+const itemTotal =
+item.price * item.quantity;
+
+return `
+<div class="item">
+
+<div class="item-row">
+
+<strong>${escapeHTML(item.name)}</strong>
 
 <button
-  type="button"
-  class="checkout"
-  id="checkoutButton">
-  Proceed to Checkout
+class="remove"
+data-remove="${index}">
+Remove
 </button>
-  </div>
+
 </div>
-<footer>
-  © 2026 Brotherhood Items Shop
-</footer>
-<script>
-  "use strict";
 
-  let cart = [];
+<div style="color:#aaa;margin-top:5px">
+$${item.price.toFixed(2)} each
+</div>
 
-  const cartPanel = document.getElementById("cartPanel");
-  const cartItems = document.getElementById("cartItems");
-  const cartCount = document.getElementById("cartCount");
-  const cartTotal = document.getElementById("cartTotal");
+<div class="qty">
 
-  const openCartButton =
-    document.getElementById("openCartButton");
+<button data-minus="${index}">−</button>
 
-  const closeCartButton =
-    document.getElementById("closeCartButton");
+<strong>${item.quantity}</strong>
 
-  const checkoutButton =
-    document.getElementById("checkoutButton");
+<button data-plus="${index}">+</button>
 
+<span style="margin-left:auto">
+$${itemTotal.toFixed(2)}
+</span>
 
-  function saveCart() {
-    try {
-      localStorage.setItem(
-        "brotherhoodCart",
-        JSON.stringify(cart)
-      );
-    } catch (error) {
-      console.log("Cart could not be saved.");
-    }
-  }
+</div>
 
+</div>
+`;
 
-  function loadCart() {
-    try {
-      const saved = localStorage.getItem(
-        "brotherhoodCart"
-      );
+}).join("");
 
-      if (saved) {
-        cart = JSON.parse(saved);
-      }
-    } catch (error) {
-      cart = [];
-    }
-  }
+}
 
+function escapeHTML(value){
 
-  function addToCart(name, price) {
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
-    const existing =
-      cart.find(item => item.name === name);
+}
 
-    if (existing) {
-      existing.quantity += 1;
-    } else {
-      cart.push({
-        name: name,
-        price: Number(price),
-        quantity: 1
-      });
-    }
+function showPayment(){
 
-    saveCart();
-    updateCart();
+if(cart.length === 0){
 
-    openCart();
+alert("Your cart is empty.");
+return;
 
-  }
+}
 
+if(BTC_ADDRESS === "YOUR_BITCOIN_RECEIVING_ADDRESS"){
 
-  function removeFromCart(index) {
+alert("Add your Bitcoin receiving address to BTC_ADDRESS first.");
+return;
 
-    cart.splice(index, 1);
+}
 
-    saveCart();
-    updateCart();
+btcAddress.textContent =
+BTC_ADDRESS;
 
-  }
+qr.src =
+"https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+encodeURIComponent("bitcoin:" + BTC_ADDRESS);
 
+payment.style.display="block";
 
-  function changeQuantity(index, change) {
+payment.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
 
-    cart[index].quantity += change;
+}
 
-    if (cart[index].quantity <= 0) {
-      cart.splice(index, 1);
-    }
+document.querySelectorAll(".add-btn").forEach(button=>{
 
-    saveCart();
-    updateCart();
+button.addEventListener("click",()=>{
 
-  }
+add(
+button.dataset.name,
+button.dataset.price
+);
 
+});
 
-  function updateCart() {
+});
 
-    cartCount.textContent =
-      cart.reduce(
-        (total, item) => total + item.quantity,
-        0
-      );
+items.addEventListener("click",(event)=>{
 
-    if (cart.length === 0) {
+const removeButton =
+event.target.closest("[data-remove]");
 
-      cartItems.innerHTML =
-        '<div class="empty">Your cart is empty.</div>';
+const minusButton =
+event.target.closest("[data-minus]");
 
-      cartTotal.textContent = "0.00";
+const plusButton =
+event.target.closest("[data-plus]");
 
-      return;
-    }
+if(removeButton){
 
+remove(
+Number(removeButton.dataset.remove)
+);
 
-    let total = 0;
+}
 
+if(minusButton){
 
-    cartItems.innerHTML = cart.map(
-      (item, index) => {
+quantity(
+Number(minusButton.dataset.minus),
+-1
+);
 
-        const itemTotal =
-          item.price * item.quantity;
+}
 
-        total += itemTotal;
+if(plusButton){
 
-        return `
-          <div class="cart-item">
+quantity(
+Number(plusButton.dataset.plus),
+1
+);
 
-            <div class="cart-item-top">
+}
 
-              <div>
-                <div class="cart-item-name">
-                  ${escapeHTML(item.name)}
-                </div>
+});
 
-                <div class="cart-item-price">
-                  $${item.price.toFixed(2)} each
-                </div>
-              </div>
+document.getElementById("openCart")
+.addEventListener("click",()=>{
 
-              <button
-                type="button"
-                class="remove-button"
-                data-remove="${index}">
-                Remove
-              </button>
+cartPanel.style.display="block";
+render();
 
-            </div>
+});
 
-            <div class="quantity-controls">
+document.getElementById("closeCart")
+.addEventListener("click",()=>{
 
-              <button
-                type="button"
-                class="quantity-button"
-                data-minus="${index}">
-                −
-              </button>
+cartPanel.style.display="none";
 
-              <strong>
-                ${item.quantity}
-              </strong>
+});
 
-              <button
-                type="button"
-                class="quantity-button"
-                data-plus="${index}">
-                +
-              </button>
+document.getElementById("checkout")
+.addEventListener("click",showPayment);
 
-              <span style="margin-left:auto;">
-                $${itemTotal.toFixed(2)}
-              </span>
+document.getElementById("copy")
+.addEventListener("click",async()=>{
 
-            </div>
+try{
 
-          </div>
-        `;
-      }
-    ).join("");
+await navigator.clipboard.writeText(BTC_ADDRESS);
 
+document.getElementById("copy").textContent =
+"Copied ✓";
 
-    cartTotal.textContent =
-      total.toFixed(2);
+setTimeout(()=>{
 
-  }
+document.getElementById("copy").textContent =
+"Copy Bitcoin Address";
 
+},2000);
 
-  function escapeHTML(value) {
+}catch(e){
 
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+alert("Please press and hold the address to copy it.");
 
-  }
+}
 
+});
 
-  function openCart() {
+cartPanel.addEventListener("click",(event)=>{
 
-    cartPanel.style.display = "block";
+if(event.target === cartPanel){
+cartPanel.style.display="none";
+}
 
-    updateCart();
+});
 
-  }
-
-
-  function closeCart() {
-
-    cartPanel.style.display = "none";
-
-  }
-
-
-  async function checkout() {
-
-    if (cart.length === 0) {
-
-      alert("Your cart is empty.");
-
-      return;
-
-    }
-
-
-    const total =
-      cart.reduce(
-        (sum, item) =>
-          sum + item.price * item.quantity,
-        0
-      );
-
-
-    checkoutButton.disabled = true;
-    checkoutButton.textContent =
-      "Connecting to payment server...";
-
-
-    try {
-
-      const response =
-        await fetch("/api/create-invoice", {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            amount: Number(total.toFixed(2))
-          })
-
-        });
-
-
-      const data =
-        await response.json();
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          data.error ||
-          "Payment setup failed."
-        );
-
-      }
-
-
-      if (!data.checkoutLink) {
-
-        throw new Error(
-          "No BTCPay checkout link was returned."
-        );
-
-      }
-
-
-      window.location.href =
-        data.checkoutLink;
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "Unable to connect to the Bitcoin payment server. " +
-        "Please try again."
-      );
-
-    } finally {
-
-      checkoutButton.disabled = false;
-
-      checkoutButton.textContent =
-        "Proceed to Checkout";
-
-    }
-
-  }
-
-
-  /*
-    Add-to-cart buttons
-  */
-
-  document
-    .querySelectorAll(".add-button")
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        function () {
-
-          const name =
-            this.getAttribute("data-name");
-
-          const price =
-            Number(
-              this.getAttribute("data-price")
-            );
-
-          addToCart(name, price);
-
-        }
-      );
-
-    });
-
-
-  /*
-    Cart controls
-  */
-
-  cartItems.addEventListener(
-    "click",
-    function (event) {
-
-      const removeButton =
-        event.target.closest(
-          "[data-remove]"
-        );
-
-      const minusButton =
-        event.target.closest(
-          "[data-minus]"
-        );
-
-      const plusButton =
-        event.target.closest(
-          "[data-plus]"
-        );
-
-
-      if (removeButton) {
-
-        const index =
-          Number(
-            removeButton.getAttribute(
-              "data-remove"
-            )
-          );
-
-        removeFromCart(index);
-
-        return;
-
-      }
-
-
-      if (minusButton) {
-
-        const index =
-          Number(
-            minusButton.getAttribute(
-              "data-minus"
-            )
-          );
-
-        changeQuantity(index, -1);
-
-        return;
-
-      }
-
-
-      if (plusButton) {
-
-        const index =
-          Number(
-            plusButton.getAttribute(
-              "data-plus"
-            )
-          );
-
-        changeQuantity(index, 1);
-
-      }
-
-    }
-  );
-
-
-  openCartButton.addEventListener(
-    "click",
-    openCart
-  );
-
-
-  closeCartButton.addEventListener(
-    "click",
-    closeCart
-  );
-
-
-  checkoutButton.addEventListener(
-    "click",
-    checkout
-  );
-
-
-  cartPanel.addEventListener(
-    "click",
-    function (event) {
-
-      if (event.target === cartPanel) {
-        closeCart();
-      }
-
-    }
-  );
-
-
-  loadCart();
-  updateCart();
+load();
+render();
 
 </script>
+
 </body>
 </html>
-:::
